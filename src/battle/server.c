@@ -320,6 +320,7 @@ BOOL Server_CheckAbilityOnHit(struct Battle *battle, struct BattleServer *server
             result  = TRUE;
         }       
         break;
+        
     case ABILITY_JUSTIFIED:
         // Defender is still alive after the attack
         if (server->activePokemon[server->defender].curHP
