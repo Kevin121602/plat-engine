@@ -337,6 +337,23 @@ BOOL Server_CheckAbilityOnHit(struct Battle *battle, struct BattleServer *server
         }       
         break;
 
+    case ABILITY_RATTLED:
+        // Defender is still alive after the attack
+        if (server->activePokemon[server->defender].curHP
+                // Move actually has a base power
+                && server->aiWork.moveTable[server->moveIDCurr].power
+                // Move is dark, bug, or ghost type
+                && (server->aiWork.moveTable[server->moveIDCurr].type == TYPE_DARK ||
+                    server->aiWork.moveTable[server->moveIDCurr].type == TYPE_GHOST ||
+                    server->aiWork.moveTable[server->moveIDCurr].type == TYPE_BUG)) {
+            server->addlEffectParam  = ADDL_EFFECT_SPE_UP_1;
+            server->addlEffectType   = ADDL_EFFECT_FROM_ABILITY;
+            server->addlEffectClient = server->defender;
+            *seqNum = SUBSCR_BOOST_STATS;
+            result     = TRUE;
+        }       
+        break;
+
     default:
         break;
     }
